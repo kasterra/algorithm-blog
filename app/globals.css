@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated color tokens to match algorithm blog design brief */
+  /* YouTube light theme colors */
+  --background: oklch(1 0 0); /* Pure white like YouTube */
+  --foreground: oklch(0.15 0 0); /* Dark text like YouTube */
+  --card: oklch(1 0 0); /* White cards */
+  --card-foreground: oklch(0.15 0 0); /* Dark text on cards */
+  --popover: oklch(1 0 0); /* White popover */
+  --popover-foreground: oklch(0.15 0 0); /* Dark text on popover */
+  --primary: oklch(0.55 0.22 25); /* YouTube red #ff0000 */
+  --primary-foreground: oklch(1 0 0); /* White text on red */
+  --secondary: oklch(0.96 0.005 240); /* Light gray like YouTube sidebar */
+  --secondary-foreground: oklch(0.15 0 0); /* Dark text on light gray */
+  --muted: oklch(0.96 0.005 240); /* Light gray backgrounds */
+  --muted-foreground: oklch(0.45 0.01 240); /* Muted text */
+  --accent: oklch(0.55 0.22 25); /* YouTube red accent */
+  --accent-foreground: oklch(1 0 0); /* White text on red accent */
+  --destructive: oklch(0.55 0.22 25); /* YouTube red for destructive actions */
+  --destructive-foreground: oklch(1 0 0); /* White text */
+  --border: oklch(0.9 0.005 240); /* Light gray borders */
+  --input: oklch(1 0 0); /* White inputs */
+  --ring: oklch(0.55 0.22 25 / 0.3); /* YouTube red focus ring */
+  --chart-1: oklch(0.55 0.22 25); /* YouTube red */
+  --chart-2: oklch(0.45 0.01 240); /* Dark gray */
+  --chart-3: oklch(0.65 0.15 45); /* Orange accent */
+  --chart-4: oklch(0.55 0.15 160); /* Green accent */
+  --chart-5: oklch(0.6 0.2 250); /* Blue accent */
+  --radius: 0.5rem; /* Corner rounding for cards */
+  --sidebar: oklch(0.96 0.005 240); /* Light gray sidebar */
+  --sidebar-foreground: oklch(0.15 0 0); /* Dark text */
+  --sidebar-primary: oklch(0.55 0.22 25); /* YouTube red */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White text */
+  --sidebar-accent: oklch(0.9 0.005 240); /* Lighter gray accent */
+  --sidebar-accent-foreground: oklch(0.15 0 0); /* Dark text */
+  --sidebar-border: oklch(0.9 0.005 240); /* Light gray border */
+  --sidebar-ring: oklch(0.55 0.22 25 / 0.3); /* YouTube red focus ring */
+}
+
+.dark {
+  --background: oklch(0.08 0 0); /* Netflix dark background #141414 */
+  --foreground: oklch(0.95 0 0); /* Light text like Netflix */
+  --card: oklch(0.12 0 0); /* Slightly lighter dark for cards */
+  --card-foreground: oklch(0.95 0 0); /* Light text on cards */
+  --popover: oklch(0.12 0 0); /* Dark popover */
+  --popover-foreground: oklch(0.95 0 0); /* Light text on popover */
+  --primary: oklch(0.55 0.22 25); /* Netflix red #e50914 */
+  --primary-foreground: oklch(1 0 0); /* White text on red */
+  --secondary: oklch(0.15 0 0); /* Dark gray like Netflix UI */
+  --secondary-foreground: oklch(0.95 0 0); /* Light text */
+  --muted: oklch(0.15 0 0); /* Dark muted backgrounds */
+  --muted-foreground: oklch(0.65 0 0); /* Muted light text */
+  --accent: oklch(0.55 0.22 25); /* Netflix red accent */
+  --accent-foreground: oklch(1 0 0); /* White text on red accent */
+  --destructive: oklch(0.55 0.22 25); /* Netflix red for destructive */
+  --destructive-foreground: oklch(1 0 0); /* White text */
+  /* Increased border contrast for better visibility in dark mode */
+  --border: oklch(0.3 0 0); /* Lighter dark borders for better contrast */
+  --input: oklch(0.15 0 0); /* Dark inputs */
+  --ring: oklch(0.55 0.22 25 / 0.5); /* Netflix red focus ring */
+  --chart-1: oklch(0.55 0.22 25); /* Netflix red */
+  --chart-2: oklch(0.65 0 0); /* Light gray */
+  --chart-3: oklch(0.769 0.188 70.08); /* Orange */
+  --chart-4: oklch(0.627 0.265 303.9); /* Purple */
+  --chart-5: oklch(0.645 0.246 16.439); /* Yellow */
+  --sidebar: oklch(0.1 0 0); /* Very dark sidebar */
+  --sidebar-foreground: oklch(0.95 0 0); /* Light text */
+  --sidebar-primary: oklch(0.55 0.22 25); /* Netflix red */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White text */
+  --sidebar-accent: oklch(0.15 0 0); /* Dark accent */
+  --sidebar-accent-foreground: oklch(0.95 0 0); /* Light text */
+  /* Increased sidebar border contrast for consistency */
+  --sidebar-border: oklch(0.3 0 0); /* Lighter dark border for consistency */
+  --sidebar-ring: oklch(0.55 0.22 25 / 0.5); /* Netflix red focus ring */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
