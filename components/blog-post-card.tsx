@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { DifficultyBadge } from "./difficulty-badge"
 import { Clock } from "lucide-react"
 import Link from "next/link"
+import { slugify } from "@/lib/slugify"
 
 interface BlogPost {
   id: string
@@ -21,11 +22,6 @@ interface BlogPostCardProps {
 }
 
 export function BlogPostCard({ post }: BlogPostCardProps) {
-  const slugify = (t: string) =>
-    t
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "")
   return (
     <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-200 border-border">
       <CardHeader className="pb-3">
