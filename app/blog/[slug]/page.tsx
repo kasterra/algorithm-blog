@@ -1,4 +1,4 @@
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { MDX } from "@/lib/mdx";
 import { CHCode } from "@/components/CHCode";
 import { slugify } from "@/lib/slugify";
 import { posts } from "@/.velite";
+import type { Post } from "@/.velite";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: slugify(p.title) }));
@@ -18,8 +19,9 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = posts.find((p) => slugify(p.title) === slug);
+  const post = posts.find((p) => slugify(p.title) === slug) as Post | undefined;
   if (!post) return notFound();
+  const readTime = post.readTime;
 
   return (
     <div className="min-h-screen bg-background">
@@ -45,6 +47,9 @@ export default async function BlogPostPage({
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               <span>{new Date(post.date).toLocaleDateString()}</span>
+              <span className="mx-2">•</span>
+              <Clock className="w-4 h-4" />
+              <span>{readTime}</span>
             </div>
           </div>
         </header>

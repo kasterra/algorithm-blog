@@ -24,6 +24,12 @@ export default defineConfig({
       schema: s.object({
         title: s.string(),
         date: s.string(),
+        // Optional blog metadata (frontmatter)
+        summary: s.string().optional().default(""),
+        category: s.string().optional().default("Uncategorized"),
+        tags: s.array(s.string()).optional().default([]),
+        readTime: s.string(),
+        difficulty: s.string().optional().default("Easy"),
         // Velite가 컴파일한 MDX 코드(함수 본문 문자열)
         code: s.mdx(),
       }),
