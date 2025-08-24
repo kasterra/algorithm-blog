@@ -9,6 +9,7 @@ import { CHCode } from "@/components/CHCode";
 import { slugify } from "@/lib/slugify";
 import { posts } from "@/.velite";
 import type { Post } from "@/.velite";
+import GiscusComments from "@/components/Giscus";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: slugify(p.title) }));
@@ -92,6 +93,22 @@ export default async function BlogPostPage({
 
         <div className="mdx-content">
           <MDX code={post.code} components={{ CHCode }} />
+        </div>
+
+        <div className="mt-12 border-t pt-8">
+          <GiscusComments
+            repo="kasterra/algorithm-blog"
+            repoId="R_kgDOPjNFUQ"
+            category="Announcements"
+            categoryId="DIC_kwDOPjNFUc4Cuhy3"
+            mapping="pathname"
+            strict="0"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            inputPosition="top"
+            themeMode="lock"
+            lang="ko"
+          />
         </div>
       </article>
     </div>
