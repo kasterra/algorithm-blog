@@ -1,42 +1,47 @@
-"use client"
+import { BlogHeader } from "@/components/blog-header";
+import { BlogPostCard } from "@/components/blog-post-card";
+import { posts as rawPosts } from "@/.velite";
+import type { Post as VelitePost } from "@/.velite";
+import { PaginationControls } from "@/components/PaginationControls";
 
-import { useMemo, useState } from "react"
-import { BlogHeader } from "@/components/blog-header"
-import { BlogPostCard } from "@/components/blog-post-card"
-import { Pagination } from "@/components/pagination"
-import { posts } from "@/.velite"
+const POSTS_PER_PAGE = 6;
 
-const POSTS_PER_PAGE = 6
+type Difficulty = "Easy" | "Medium" | "Hard";
 
-export default function BlogPage() {
-  const [currentPage, setCurrentPage] = useState(1)
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  // Map Velite posts into card shape with sensible defaults (server-side)
+  const posts = rawPosts as VelitePost[];
+  const allPosts = posts
+    .slice()
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((p, idx) => ({
+      id: String(idx + 1),
+      title: p.title,
+      summary: p.summary ?? "",
+      difficulty: (
+        ["Easy", "Medium", "Hard"] as readonly Difficulty[]
+      ).includes((p.difficulty as Difficulty) ?? "Easy")
+        ? (p.difficulty as Difficulty) ?? "Easy"
+        : ("Easy" as const),
+      category: p.category ?? "Uncategorized",
+      tags: p.tags ?? [],
+      readTime: p.readTime,
+      publishedAt: p.date,
+    }));
 
-  // Map Velite posts into card shape with sensible defaults
-  const allPosts = useMemo(() => {
-    return posts
-      .slice()
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .map((p, idx) => ({
-        id: String(idx + 1),
-        title: p.title,
-        summary: "", // optional until added to schema/frontmatter
-        difficulty: "Easy" as const, // default until schema supports it
-        category: "Uncategorized",
-        tags: [] as string[],
-        readTime: "",
-        publishedAt: p.date,
-      }))
-  }, [])
-
-  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE)
-  const startIndex = (currentPage - 1) * POSTS_PER_PAGE
-  const endIndex = startIndex + POSTS_PER_PAGE
-  const currentPosts = allPosts.slice(startIndex, endIndex)
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+  const resolvedSearch = await searchParams;
+  const pageParam = Array.isArray(resolvedSearch?.page)
+    ? resolvedSearch?.page[0]
+    : resolvedSearch?.page;
+  const currentPage = Math.max(1, Number(pageParam ?? 1) || 1);
+  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const endIndex = startIndex + POSTS_PER_PAGE;
+  const currentPosts = allPosts.slice(startIndex, endIndex);
 
   return (
     <div className="min-h-screen bg-background">
@@ -44,9 +49,11 @@ export default function BlogPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h2 className="font-serif text-3xl font-bold mb-2">Latest Algorithm Insights</h2>
+          <h2 className="font-serif text-3xl font-bold mb-2">
+            카스테라의 알고리즘 분관
+          </h2>
           <p className="text-muted-foreground">
-            Enhance your problem-solving skills with expert tutorials and in-depth algorithm analysis
+            프론트엔드 개발자 카스테라의 알고리즘 문제해결(PS) 일기장
           </p>
         </div>
 
@@ -55,9 +62,8 @@ export default function BlogPage() {
             <BlogPostCard key={post.id} post={post} />
           ))}
         </div>
-
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        <PaginationControls currentPage={currentPage} totalPages={totalPages} />
       </main>
     </div>
-  )
+  );
 }
