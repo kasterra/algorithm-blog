@@ -1,6 +1,7 @@
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { BlogHeader } from "@/components/blog-header";
 import { MDX } from "@/lib/mdx";
@@ -11,6 +12,41 @@ import type { Post } from "@/.velite";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: slugify(p.title) }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = posts.find((p) => slugify(p.title) === slug) as Post | undefined;
+
+  if (!post) {
+    return {
+      title: "Post not found",
+    };
+  }
+
+  return {
+    title: `${post.title} - Kasterra's PS`,
+    description: post.summary || undefined,
+    keywords: Array.isArray(post.tags) ? post.tags : undefined,
+    openGraph: {
+      title: `${post.title} - Kasterra's PS`,
+      description: post.summary || undefined,
+      type: "article",
+      url: `/blog/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} - Kasterra's PS`,
+      description: post.summary || undefined,
+    },
+    alternates: {
+      canonical: `https://kasterra-algorithm-blog.vercel.app/blog/${slug}`,
+    },
+  };
 }
 
 export default async function BlogPostPage({
