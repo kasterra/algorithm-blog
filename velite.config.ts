@@ -7,6 +7,16 @@ const chConfig = {
   syntaxHighlighting: { theme: "github-dark" },
 } satisfies import("codehike/mdx").CodeHikeConfig;
 
+// 파일 경로에서 슬러그를 생성 (파일명 기반)
+function filenameToSlug(path: string): string {
+  const base = path.split("/").pop() ?? path;
+  const name = base.replace(/\.(md|mdx)$/i, "");
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
+
 export default defineConfig({
   // 전역 MDX 옵션 (Velite가 MDX를 컴파일할 때 사용)
   mdx: {
@@ -22,6 +32,8 @@ export default defineConfig({
       name: "Post",
       pattern: "posts/**/*.mdx",
       schema: s.object({
+        // 파일명 기반 slug (frontmatter가 아닌 경로에서 계산)
+        slug: s.path().transform((p) => filenameToSlug(p)),
         title: s.string(),
         date: s.string(),
         // Optional blog metadata (frontmatter)
