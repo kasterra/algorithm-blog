@@ -20,6 +20,7 @@ export default async function BlogPage({
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map((p, idx) => ({
       id: String(idx + 1),
+      slug: p.slug,
       title: p.title,
       summary: p.summary ?? "",
       difficulty: (
@@ -49,7 +50,7 @@ export default async function BlogPage({
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h2 className="font-serif text-3xl font-bold mb-2">
+          <h2 className="font-sans text-3xl font-bold mb-2">
             카스테라의 알고리즘 분관
           </h2>
           <p className="text-muted-foreground">

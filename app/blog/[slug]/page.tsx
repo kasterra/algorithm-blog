@@ -6,13 +6,12 @@ import { Button } from "@/components/ui/button";
 import { BlogHeader } from "@/components/blog-header";
 import { MDX } from "@/lib/mdx";
 import { CHCode } from "@/components/CHCode";
-import { slugify } from "@/lib/slugify";
 import { posts } from "@/.velite";
 import type { Post } from "@/.velite";
 import GiscusComments from "@/components/Giscus";
 
 export function generateStaticParams() {
-  return posts.map((p) => ({ slug: slugify(p.title) }));
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -21,7 +20,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = posts.find((p) => slugify(p.title) === slug) as Post | undefined;
+  const post = posts.find((p) => p.slug === slug) as Post | undefined;
 
   if (!post) {
     return {
@@ -56,7 +55,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = posts.find((p) => slugify(p.title) === slug) as Post | undefined;
+  const post = posts.find((p) => p.slug === slug) as Post | undefined;
   if (!post) return notFound();
   const readTime = post.readTime;
 
@@ -77,7 +76,7 @@ export default async function BlogPostPage({
 
       <article className="container mx-auto px-4 py-8 max-w-4xl">
         <header className="mb-8">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 leading-tight">
+          <h1 className="font-sans text-4xl md:text-5xl font-bold mb-4 leading-tight">
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-muted-foreground">
@@ -106,7 +105,6 @@ export default async function BlogPostPage({
             reactionsEnabled="1"
             emitMetadata="0"
             inputPosition="top"
-            themeMode="lock"
             lang="ko"
           />
         </div>

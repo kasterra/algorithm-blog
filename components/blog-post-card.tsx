@@ -1,24 +1,29 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { DifficultyBadge } from "./difficulty-badge"
-import { Clock } from "lucide-react"
-import Link from "next/link"
-import { slugify } from "@/lib/slugify"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { DifficultyBadge } from "./difficulty-badge";
+import { Clock } from "lucide-react";
+import Link from "next/link";
 
 interface BlogPost {
-  id: string
-  title: string
-  summary: string
-  difficulty: "Easy" | "Medium" | "Hard"
-  category: string
-  tags: string[]
-  readTime: string
-  publishedAt: string
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  category: string;
+  tags: string[];
+  readTime: string;
+  publishedAt: string;
 }
 
 interface BlogPostCardProps {
-  post: BlogPost
+  post: BlogPost;
 }
 
 export function BlogPostCard({ post }: BlogPostCardProps) {
@@ -26,7 +31,9 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
     <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-200 border-border">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-serif text-xl font-bold leading-tight line-clamp-2 flex-1">{post.title}</h3>
+          <h3 className="font-sans text-xl font-bold leading-tight line-clamp-2 flex-1">
+            {post.title}
+          </h3>
           <DifficultyBadge difficulty={post.difficulty} />
         </div>
 
@@ -42,7 +49,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
             <Badge
               key={tag}
               variant="outline"
-              className="text-xs border-muted-foreground/50 hover:border-foreground/60 hover:text-foreground dark:border-muted-foreground/70 dark:text-muted-foreground dark:hover:border-foreground/80 dark:hover:text-foreground text-slate-500 text-slate-50 bg-slate-800"
+              className="text-xs border-muted-foreground/50 hover:border-foreground/60 hover:text-foreground dark:border-muted-foreground/70 dark:text-muted-foreground dark:hover:border-foreground/80 dark:hover:text-foreground text-slate-50 bg-slate-800"
             >
               {tag}
             </Badge>
@@ -51,7 +58,9 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       </CardHeader>
 
       <CardContent className="flex-1">
-        <p className="text-muted-foreground leading-relaxed line-clamp-3">{post.summary}</p>
+        <p className="text-muted-foreground leading-relaxed line-clamp-3">
+          {post.summary}
+        </p>
       </CardContent>
 
       <CardFooter className="pt-0 flex items-center justify-between">
@@ -61,9 +70,9 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
         </div>
 
         <Button size="sm" className="bg-primary hover:bg-primary/90" asChild>
-          <Link href={`/blog/${slugify(post.title)}`}>Read More</Link>
+          <Link href={`/blog/${post.slug}`}>Read More</Link>
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -119,5 +119,24 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+}
+
+:lang(ko) {
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+:lang(ko) .font-serif,
+:lang(ko) h1,
+:lang(ko) h2,
+:lang(ko) h3,
+:lang(ko) h4,
+:lang(ko) h5,
+:lang(ko) h6 {
+  font-family: "Noto Serif KR", "Apple SD Gothic Neo", "Noto Sans KR", Georgia,
+    serif;
 }

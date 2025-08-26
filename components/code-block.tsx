@@ -35,14 +35,14 @@ export function CodeBlock({ content }: CodeBlockProps) {
               {parts[i].split("\n").map((line, lineIndex) => {
                 if (line.startsWith("## ")) {
                   return (
-                    <h2 key={lineIndex} className="font-serif text-2xl font-bold mt-8 mb-4 text-foreground">
+                    <h2 key={lineIndex} className="font-sans text-2xl font-bold mt-8 mb-4 text-foreground">
                       {line.replace("## ", "")}
                     </h2>
                   )
                 }
                 if (line.startsWith("### ")) {
                   return (
-                    <h3 key={lineIndex} className="font-serif text-xl font-semibold mt-6 mb-3 text-foreground">
+                    <h3 key={lineIndex} className="font-sans text-xl font-semibold mt-6 mb-3 text-foreground">
                       {line.replace("### ", "")}
                     </h3>
                   )

@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 import { usePathname } from "next/navigation";
 
 const Giscus = dynamic(() => import("@giscus/react"), { ssr: false });
@@ -70,22 +70,31 @@ export default function GiscusComments({
     return null;
   }
 
-  const { resolvedTheme } = useTheme();
+  const { theme: appTheme } = useTheme();
   const pathname = usePathname();
 
   // Decide theme per mode
   const theme: ThemeName =
     themeMode === "lock"
       ? "preferred_color_scheme"
-      : resolvedTheme === "dark"
+      : appTheme === "dark"
       ? darkTheme
       : "light";
 
-  // Stable key to remount on route/theme changes based on actual theme string
+  // Stable key to avoid remount on theme changes (only route/mapping changes remount)
   const key = useMemo(
-    () => `${mapping}-${term ?? pathname}-${theme}`,
-    [mapping, term, pathname, theme]
+    () => `${mapping}-${term ?? pathname}`,
+    [mapping, term, pathname]
   );
+
+  // Update giscus theme without remount via postMessage
+  useEffect(() => {
+    if (themeMode === "lock") return; // honor lock mode
+    const iframe = document.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
+    if (!iframe) return;
+    const message = { giscus: { setConfig: { theme } } } as const;
+    iframe.contentWindow?.postMessage(message, "https://giscus.app");
+  }, [theme, themeMode]);
 
   return (
     <div id="comments" aria-label="댓글">
