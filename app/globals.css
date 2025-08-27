@@ -79,6 +79,8 @@
 }
 
 @theme inline {
+  /* Fonts */
+  --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -152,6 +154,14 @@
 }
 .mdx-content code:not(pre code) {
   @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+/* Ensure all MDX pre/code render with monospace fonts */
+.mdx-content pre,
+.mdx-content pre code,
+.ch-pre,
+.ch-code {
+  @apply font-mono;
 }
 
 /* Code block wrapper to mimic previous header + body styling */

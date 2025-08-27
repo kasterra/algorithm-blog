@@ -1,8 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Source_Sans_3, Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
+import { Source_Sans_3, Noto_Sans_KR, Noto_Serif_KR, Fira_Code } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -33,6 +32,14 @@ export const metadata: Metadata = {
   generator: "v0.app",
 };
 
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: false,
+  variable: "--font-fira-code",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -45,7 +52,7 @@ export default function RootLayout({
 html {
   font-family: ${GeistSans.style.fontFamily};
   --font-sans: ${sourceSans.variable};
-  --font-mono: ${GeistMono.variable};
+  --font-mono: ${firaCode.style.fontFamily}, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-serif: ${notoSerifKr.variable};
 }
 
@@ -78,7 +85,7 @@ html {
         `}</style>
       </head>
       <body
-        className={`${notoSerifKr.variable} ${sourceSans.variable} ${notoSansKr.variable}  antialiased`}
+        className={`${notoSerifKr.variable} ${sourceSans.variable} ${notoSansKr.variable} ${firaCode.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
