@@ -1,15 +1,9 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
-import { Source_Sans_3, Noto_Sans_KR, Noto_Serif_KR, Fira_Code } from "next/font/google";
+import { Noto_Sans_KR, Noto_Serif_KR, Fira_Code } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
-
-const sourceSans = Source_Sans_3({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-source-sans",
-});
 
 const notoSansKr = Noto_Sans_KR({
   // Use common text weights to limit payload
@@ -51,7 +45,6 @@ export default function RootLayout({
         <style>{`
 html {
   font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${sourceSans.variable};
   --font-mono: ${firaCode.style.fontFamily}, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-serif: ${notoSerifKr.variable};
 }
@@ -85,7 +78,7 @@ html {
         `}</style>
       </head>
       <body
-        className={`${notoSerifKr.variable} ${sourceSans.variable} ${notoSansKr.variable} ${firaCode.variable} antialiased`}
+        className={`${notoSerifKr.variable} ${notoSansKr.variable} ${firaCode.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
