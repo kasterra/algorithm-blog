@@ -1,9 +1,6 @@
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
-import Link from "next/link";
+import { Calendar, Clock } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
-import { BlogHeader } from "@/components/blog-header";
 import { MDX } from "@/lib/mdx";
 import { CHCode } from "@/components/CHCode";
 import { posts } from "@/.velite";
@@ -60,21 +57,7 @@ export default async function BlogPostPage({
   const readTime = post.readTime;
 
   return (
-    <div className="min-h-screen bg-background">
-      <BlogHeader />
-
-      <div className="border-b bg-card/50">
-        <div className="container mx-auto px-4 py-3">
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Blog
-            </Button>
-          </Link>
-        </div>
-      </div>
-
-      <article className="container mx-auto px-4 py-8 max-w-4xl">
+    <article className="container mx-auto px-4 py-8 max-w-4xl">
         <header className="mb-8">
           <h1 className="font-sans text-4xl md:text-5xl font-bold mb-4 leading-tight">
             {post.title}
@@ -108,7 +91,6 @@ export default async function BlogPostPage({
             lang="ko"
           />
         </div>
-      </article>
-    </div>
+    </article>
   );
 }
